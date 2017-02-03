@@ -7,7 +7,6 @@ $SpisokPapok = [];
 echo "'Список файлов в папке ' . $dir .':' . \r\n";
 //echo "<br />";
 $SpisokFailovIPapok = scandir($dir);
-$IskluchenieDir = ['.', '..'];
 if(($key = array_search('.', $SpisokFailovIPapok)) !== FALSE) {
 unset($SpisokFailovIPapok[$key]);
 }
