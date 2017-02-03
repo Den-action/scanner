@@ -26,7 +26,6 @@ return $SpisokPapok;
 echo "\r\n";
 $SpisokPapok = SoderzhimoePapki($dir);
 $depth = $argv[1];
-echo var_dump("--&&&&&&&&&&&&&" . $depth);
 $SpisokPapokTemp = [];
 do {
 	foreach($SpisokPapok as $papka){
