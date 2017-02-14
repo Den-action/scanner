@@ -1,10 +1,7 @@
 <?php
-$dir = __DIR__;
-$listDirs = [];
-array_push($listDirs, $dir);
+$listDirs[] = __DIR__;
 $depth = $argv[1];
-$listDirsTemp = [];
-function folderContent($listDirs, $depth=0) {
+function listFolder($listDirs, $depth=0) {
     if ($depth <1)
     return;
         $listDirsTemp = [];
@@ -20,13 +17,13 @@ function folderContent($listDirs, $depth=0) {
             echo implode("\r\n", $listFolderContent);
             foreach ($listFolderContent as $folder) {
                 if (is_dir($directory . DIRECTORY_SEPARATOR . $folder)) {
-                    array_push($listDirsTemp, $directory . DIRECTORY_SEPARATOR . $folder);
+                    $listDirsTemp[] = $directory . DIRECTORY_SEPARATOR . $folder;
                 }
             }
         }
         $listDirs = $listDirsTemp;
-        folderContent($listDirs, --$depth);
+    listFolder($listDirs, --$depth);
 }
 echo "\r\n";
-folderContent($listDirs, $depth);
+listFolder($listDirs, $depth);
 ?>
