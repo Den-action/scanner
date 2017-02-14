@@ -4,7 +4,7 @@ $depth = $argv[1];
 function listFolder($listDirs, $depth=0) {
     if ($depth <1)
     return;
-        $listDirsTemp = [];
+//        $listDirsTemp = [];
         foreach ($listDirs as $directory) {
             echo 'Список файлов в папке ' . $directory . ':' . "\r\n";
             $listFolderContent = scandir($directory);
@@ -17,12 +17,12 @@ function listFolder($listDirs, $depth=0) {
             echo implode("\r\n", $listFolderContent);
             foreach ($listFolderContent as $folder) {
                 if (is_dir($directory . DIRECTORY_SEPARATOR . $folder)) {
-                    $listDirsTemp[] = $directory . DIRECTORY_SEPARATOR . $folder;
+                    $listDirs[] = $directory . DIRECTORY_SEPARATOR . $folder;
+                    unset($listDirs[0]);
+                    listFolder(($listDirs), --$depth);
                 }
             }
         }
-        $listDirs = $listDirsTemp;
-    listFolder($listDirs, --$depth);
 }
 echo "\r\n";
 listFolder($listDirs, $depth);
