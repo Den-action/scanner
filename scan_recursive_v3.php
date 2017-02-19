@@ -1,16 +1,12 @@
 <?php
 
 $depth = $argv[1];
-//$depth = 3;
 $dir = __DIR__;
 function listFolder($dir, $depth = 1) {
     --$depth;
     $directory = opendir($dir);
     $listFolderContent = (scandir($dir));
-    while (false !== ($key = array_search('.', $listFolderContent))) {
-        unset($listFolderContent[$key]);
-    }
-    while (false !==($key = array_search('..', $listFolderContent))) {
+    while (false !== ($key = array_search('.', $listFolderContent)) || ($key = array_search('..', $listFolderContent))) {
         unset($listFolderContent[$key]);
     }
     echo 'Список содержимого папки ' . $dir . ':' . implode($listFolderContent) . "\r\n";
