@@ -2,26 +2,29 @@
 
 $depth = $argv[1];
 $dir = __DIR__;
-function listFolder($dir, $depth = 1) {
+$listFolderContent = [];
+function listFolder($dir, $listFolderContent, $depth = 1) {
     --$depth;
+    $listFolderFunc = [];
     $directory = opendir($dir);
-    $listFolderContent = (scandir($dir));
-    while (false !== ($key = array_search('.', $listFolderContent)) || ($key = array_search('..', $listFolderContent))) {
-        unset($listFolderContent[$key]);
-    }
-    echo 'Список содержимого папки ' . $dir . ':' . implode($listFolderContent) . "\r\n";
-    while (false !== ($folder = readdir($directory))) {
-        if ($folder == '.' || $folder == '..') {
+    while (false !== ($entity = readdir($directory))) {
+        if ($entity == '.' || $entity == '..') {
             continue;
         }
+        $listFolderFunc [] = $dir . DIRECTORY_SEPARATOR . $entity;
+    }
+    closedir($directory);
+    $listFolderContent = array_merge($listFolderContent, $listFolderFunc);
+    foreach ($listFolderFunc as $item) {
         if ($depth < 1)
             break;
-        if (is_dir($dir . DIRECTORY_SEPARATOR . $folder)) {
-                listFolder($dir . DIRECTORY_SEPARATOR . $folder, $depth);
+        if (is_dir($item)) {
+            $listFolderContent = listFolder($item, $listFolderContent, $depth);
         }
     }
-        closedir($directory);
+    return $listFolderContent;
 }
-listFolder($dir, $depth);
+$listFolderContent = listFolder($dir, $listFolderContent, $depth);
+echo var_dump($listFolderContent);
 
 ?>
