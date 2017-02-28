@@ -2,27 +2,26 @@
 
 $depth = $argv[1];
 $dir = __DIR__;
-$listFolderContent = [];
-function listFolder($dir, $listFolderContent, $depth = 1) {
+function listFolder($dir, $depth) {
     --$depth;
-    $listFolderFunc = [];
+    $listFolderContent = [];
     $directory = opendir($dir);
     while (false !== ($entity = readdir($directory))) {
+        if ($depth < 0)
+            continue;
         if ($entity == '.' || $entity == '..') {
             continue;
         }
-        $listFolderFunc [] = $dir . DIRECTORY_SEPARATOR . $entity;
-        if ($depth < 1)
-            continue;
+        $listFolderContent [] = $dir . DIRECTORY_SEPARATOR . $entity;
+
         if (is_dir($dir . DIRECTORY_SEPARATOR . $entity)) {
-            $listFolderContent = listFolder($dir . DIRECTORY_SEPARATOR . $entity, $listFolderContent, $depth);
+            $listFolderContent = array_merge($listFolderContent, listFolder($dir . DIRECTORY_SEPARATOR . $entity, $depth));
         }
     }
     closedir($directory);
-    $listFolderContent = array_merge($listFolderContent, $listFolderFunc);
     return $listFolderContent;
 }
-$listFolderContent = listFolder($dir, $listFolderContent, $depth);
-echo var_dump($listFolderContent);
+$listFolderContent = listFolder($dir, $depth);
+var_dump($listFolderContent);
 
 ?>
