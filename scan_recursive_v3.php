@@ -3,9 +3,8 @@
 $depth = $argv[1];
 $dir = __DIR__;
 function listFolder($dir, $depth) {
-    --$depth;
-    if ($depth < 0) {
-     return [];   
+    if (--$depth < 0) {
+     return [];
     }
     $listFolderContent = [];
     $directory = opendir($dir);
