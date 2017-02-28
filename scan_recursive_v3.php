@@ -12,16 +12,14 @@ function listFolder($dir, $listFolderContent, $depth = 1) {
             continue;
         }
         $listFolderFunc [] = $dir . DIRECTORY_SEPARATOR . $entity;
+        if ($depth < 1)
+            continue;
+        if (is_dir($dir . DIRECTORY_SEPARATOR . $entity)) {
+            $listFolderContent = listFolder($dir . DIRECTORY_SEPARATOR . $entity, $listFolderContent, $depth);
+        }
     }
     closedir($directory);
     $listFolderContent = array_merge($listFolderContent, $listFolderFunc);
-    foreach ($listFolderFunc as $item) {
-        if ($depth < 1)
-            break;
-        if (is_dir($item)) {
-            $listFolderContent = listFolder($item, $listFolderContent, $depth);
-        }
-    }
     return $listFolderContent;
 }
 $listFolderContent = listFolder($dir, $listFolderContent, $depth);
